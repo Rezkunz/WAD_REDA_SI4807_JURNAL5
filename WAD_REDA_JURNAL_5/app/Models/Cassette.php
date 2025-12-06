@@ -14,7 +14,7 @@ class Cassette extends Model
      * the attributes are title, artist, year
      */
     protected $table = 'cassettes';
-    protected $fillable = [
+    protected $fillable = [ 'title', 'artist', 'year' ];
 
-    ];
+ 
 }

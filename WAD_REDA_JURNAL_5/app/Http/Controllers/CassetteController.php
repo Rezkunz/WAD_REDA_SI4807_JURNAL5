@@ -6,6 +6,7 @@ use App\Models\Cassette;
 use App\Http\Resources\CassetteResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use MessageFormatter;
 
 class CassetteController extends Controller
 {
@@ -15,6 +16,8 @@ class CassetteController extends Controller
      */
     public function index()
     {
+        $cassettes = Cassette::all();
+        return CassetteResource::collection($cassette);
         // ambil semua data cassette
         // $cassettes = ....
 
@@ -30,13 +33,16 @@ class CassetteController extends Controller
     {
         // Request body berisi title, artist dan year
         $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:225',
+            'artist' => 'required|string|max:225',
+            'year' => 'required|year',
             
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                // 'success' => false,
-                // 'errors' => ....
+                'messege' => 'cek your request lah',
+                'errors' => $validator->errors()
             ], 422);
         }
 
@@ -59,8 +65,8 @@ class CassetteController extends Controller
 
         if (!$cassette) {
             return response()->json([
-                // 'success' => false,
-                // 'message' => ....
+                'messege' => 'cek your request lah',
+                'errors' => $validator->errors()
             ], 404);
         }
 
@@ -84,16 +90,16 @@ class CassetteController extends Controller
 
         if (!$cassette) {
             return response()->json([
-                // 'success' => false,
-                // 'message' => ....
+                'messege' => 'cek your request lah',
+                'errors' => $validator->errors()
             ], 404);
         }
 
 
         if ($validator->fails()) {
             return response()->json([
-                // 'success' => false,
-                // 'errors' => ....
+              'messege' => 'cek your request lah',
+            'errors' => $validator->errors()
             ], 422);
         }
 
@@ -115,8 +121,8 @@ class CassetteController extends Controller
 
         if (!$cassette) {
             return response()->json([
-                // 'success' => false,
-                // 'message' => ....
+               'messege' => 'cek your request lah',
+                'errors' => $validator->errors()
             ], 404);
         }
 
