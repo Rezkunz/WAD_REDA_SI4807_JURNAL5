@@ -9,12 +9,24 @@ use Illuminate\Support\Facades\Validator;
 
 class DvdController extends Controller
 {
+    
     /**
      * ===========1================
      * Buat fungsi index yang mengembalikan semua data dvd
      */
-    public function index()
+    public function index(request $request)
     {
+       return[
+        'id'=>$this->id
+        'title'=>$string->title
+        'director'=>$string->director
+        'year'=>$year->year
+        'created_at'=>$timestamp->created_at
+        'updated_at'=>$timestamp->updated_at
+       ];
+        
+
+
         // ambil semua data dvd
         // $dvds = ....
 
@@ -30,15 +42,24 @@ class DvdController extends Controller
     {
         // Request body berisi title, director dan year
         $validator = Validator::make($request->all(), [
+
             
         ]);
 
         if ($validator->fails()) {
             return response()->json([
+                'message'=>'please   check your request|',
+                'errors'=>$validator->errors()
+
                 // 'success' => false,
                 // 'errors' => ....
             ], 422);
         }
+        $item = item::create($validator->validated());
+        return(new item resources($item))
+        ->additional(['message'=>'item created succesfully'])
+        ->response()
+        ->setstatuscode(201);
 
         // Buat data dvd
         // $dvd = ....
@@ -54,6 +75,7 @@ class DvdController extends Controller
      */
     public function show(string $id)
     {
+        
         // Cari data dvd berdasarkan ID
         // $dvd = ....
 

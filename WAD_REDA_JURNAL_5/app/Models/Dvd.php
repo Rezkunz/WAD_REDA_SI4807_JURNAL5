@@ -15,6 +15,13 @@ class Dvd extends Model
      */
     protected $table = 'dvds';
     protected $fillable = [
+        'id',
+        'title',
+        'director',
+        'year',
+        'created_at',
+        'updated_at',
+
 
     ];
 }
