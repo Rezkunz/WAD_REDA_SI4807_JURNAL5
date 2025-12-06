@@ -17,9 +17,10 @@ class DvdaudioController extends Controller
     {
         // ambil semua data dvdaudio
         // $dvdaudios = ....
-
+        $dvdaudios = Dvdaudio::all();
         // return koleksi dvdaudio
         // return ....
+        return DvdaudioResource::collection($dvdaudios);
     }
 
     /**
@@ -30,21 +31,29 @@ class DvdaudioController extends Controller
     {
         // Request body berisi title, artist dan year
         $validator = Validator::make($request->all(), [
-            
+            'title' => 'required|string|max:255',
+            'artist' => 'required|string',
+            'year' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 // 'success' => false,
+                'success' => false,
                 // 'errors' => ....
+                'errors' => $validator->errors()
             ], 422);
         }
 
         // Buat data dvdaudio
         // $dvdaudio = ....
-
+        $dvdaudio = Dvdaudio::create($validator->validated());
         // return dvdaudio yang dibuat sebagai resource
         // return ....
+        return (new DvdaudioResource($dvdaudio))
+                    ->additional(['message' => 'Created successfully'])
+                    ->response()
+                    ->setStatusCode(201);
 
     }
 
@@ -56,16 +65,19 @@ class DvdaudioController extends Controller
     {
         // Cari data dvdaudio berdasarkan ID
         // $dvdaudio = ....
-
+        $dvdaudio = Dvdaudio::find($id);
         if (!$dvdaudio) {
             return response()->json([
                 // 'success' => false,
+                'sucess' => false,
                 // 'message' => ....
+                'message' => 'Not Found'
             ], 404);
         }
 
         // return dvdaudio sebagai resource
         // return ....
+        return new DvdaudioResource($dvdaudio);
     }
 
     /**
@@ -76,16 +88,21 @@ class DvdaudioController extends Controller
     {
         // Request body berisi title, artist dan year
         $validator = Validator::make($request->all(), [
-            
+            'title' => 'required|string',
+            'artist' => 'string',
+            'year' => 'integer',
         ]);
 
         // Cari data dvdaudio berdasarkan ID
         // $dvdaudio = ....
+        $dvdaudio = Dvdaudio::find($id);
 
         if (!$dvdaudio) {
             return response()->json([
                 // 'success' => false,
+                'success' => false,
                 // 'message' => ....
+                'message' => 'Not Found'
             ], 404);
         }
 
@@ -93,15 +110,21 @@ class DvdaudioController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 // 'success' => false,
+                'succes' => false,
                 // 'errors' => ....
+                'errors' => $validator->errors()
             ], 422);
         }
 
         // Update data dvdaudio
         // $dvdaudio->....
-
+        $dvdaudio->update($validator->validated());
         // return dvdaudio yang diupdate sebagai resource
         // return ....
+        return (new DvdaudioResource($dvdaudio))
+                    ->additional(['message' => 'Updated successfully'])
+                    ->response()
+                    ->setStatusCode(200);
     }
 
     /**
@@ -112,18 +135,22 @@ class DvdaudioController extends Controller
     {
         // Cari data dvdaudio berdasarkan ID
         // $dvdaudio = ....
+        $dvdaudio = Dvdaudio::find($id);
 
         if (!$dvdaudio) {
             return response()->json([
                 // 'success' => false,
+                'success' => false,
                 // 'message' => ....
+                'message' => 'Not Found'
             ], 404);
         }
 
         // Hapus data dvdaudio
         // $dvdaudio->....
-
+        $dvdaudio->delete();
         // return message sukses
         // return ....
+        return response()->json(['message' => 'Deleted successfully'], 200);
     }
 }
