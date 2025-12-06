@@ -15,15 +15,19 @@ use App\Http\Controllers\AuthController;
  * =============1================
  * unprotected routes for user registration and login
  */
-
-
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::apiResource('vhss', VhsController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     /**
      * ============2================
      * user logout route
      */
-
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', function(Request $request){
+        return $request->user();
+    });
     /**
      * ============4================
      * bluray API routes
@@ -35,7 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
      */
 
     /**
-     * 
+     *
      * ============6================
      * cassette API routes
      */
