@@ -16,6 +16,9 @@ use App\Http\Controllers\AuthController;
  * unprotected routes for user registration and login
  */
 
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -23,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
      * ============2================
      * user logout route
      */
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     /**
      * ============4================
