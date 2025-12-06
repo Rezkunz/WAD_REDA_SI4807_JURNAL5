@@ -17,6 +17,13 @@ return new class extends Migration
          * id, title, artist, year, timestamps
          */
         Schema::create('cassettes', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('artist');
+            $table->year('year');
+            $table->timestamp('created_');
+            $table->timestamp('update_at');
+
 
         });
     }
